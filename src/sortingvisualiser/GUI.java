@@ -14,9 +14,14 @@ public class GUI extends javax.swing.JFrame {
 
     public GUI(SortingVisualiser sortingVisualiser) {
         this.sortingVisualiser = sortingVisualiser;
+        initDesign();
+        initComponents();
+    }
+    
+    private void initDesign() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -30,7 +35,6 @@ public class GUI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        initComponents();
     }
 
     /**
@@ -42,6 +46,19 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        display = new javax.swing.JPanel();
+        buttonPanel = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        algorithmList = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        playbackSpeedSlider = new javax.swing.JSlider();
+        playbackSpeed = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         optionsMenu = new javax.swing.JMenu();
         showBubbles = new javax.swing.JCheckBoxMenuItem();
@@ -50,15 +67,131 @@ public class GUI extends javax.swing.JFrame {
         setTitle("Sorting Visualiser");
         setName("mainWindow"); // NOI18N
 
+        display.setPreferredSize(new java.awt.Dimension(1280, 720));
+
+        javax.swing.GroupLayout displayLayout = new javax.swing.GroupLayout(display);
+        display.setLayout(displayLayout);
+        displayLayout.setHorizontalGroup(
+            displayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        displayLayout.setVerticalGroup(
+            displayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        buttonPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel2.setText("Sorting Algorithm");
+
+        algorithmList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bubble Sort", "Inserstion Sort", "Merge Sort", " " }));
+
+        jLabel1.setText("Length");
+
+        jLabel3.setText("Range");
+
+        jLabel4.setText("Playback speed");
+
+        jButton1.setText("Play");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Regenerate numbers");
+
+        playbackSpeedSlider.setMajorTickSpacing(1);
+        playbackSpeedSlider.setMaximum(240);
+        playbackSpeedSlider.setMinimum(1);
+        playbackSpeedSlider.setMinorTickSpacing(1);
+        playbackSpeedSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                playbackSpeedSliderStateChanged(evt);
+            }
+        });
+        playbackSpeedSlider.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                playbackSpeedSliderPropertyChange(evt);
+            }
+        });
+
+        playbackSpeed.setEditable(false);
+        playbackSpeed.setText("30");
+        playbackSpeed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playbackSpeedActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
+        buttonPanel.setLayout(buttonPanelLayout);
+        buttonPanelLayout.setHorizontalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(playbackSpeedSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(buttonPanelLayout.createSequentialGroup()
+                        .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(buttonPanelLayout.createSequentialGroup()
+                                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(algorithmList, 0, 191, Short.MAX_VALUE)
+                                    .addComponent(jTextField1)
+                                    .addComponent(jTextField2)
+                                    .addComponent(playbackSpeed)))
+                            .addGroup(buttonPanelLayout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        buttonPanelLayout.setVerticalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(playbackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(playbackSpeedSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(451, Short.MAX_VALUE))
+        );
+
         optionsMenu.setText("Options");
+        optionsMenu.setFocusPainted(true);
 
         showBubbles.setText("Detailed Bubble Sort");
-        showBubbles.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                showBubblesStateChanged(evt);
+        showBubbles.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                showBubblesItemStateChanged(evt);
             }
         });
         optionsMenu.add(showBubbles);
+        showBubbles.putClientProperty("CheckBoxMenuItem.doNotCloseOnMouseClick",Boolean.TRUE);
 
         jMenuBar1.add(optionsMenu);
 
@@ -68,19 +201,48 @@ public class GUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 959, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 751, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showBubblesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_showBubblesStateChanged
+    private void showBubblesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showBubblesItemStateChanged
         sortingVisualiser.setShowBubbles(showBubbles.isSelected());
-    }//GEN-LAST:event_showBubblesStateChanged
+        //optionsMenu.setPopupMenuVisible(true);
+        //optionsMenu.setSelected(true);
+    }//GEN-LAST:event_showBubblesItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void playbackSpeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playbackSpeedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_playbackSpeedActionPerformed
+
+    private void playbackSpeedSliderPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_playbackSpeedSliderPropertyChange
+        //playbackSpeed.setText(String.valueOf(playbackSpeedSlider.getValue()));
+        //System.out.println("Slider adjusted");
+    }//GEN-LAST:event_playbackSpeedSliderPropertyChange
+
+    private void playbackSpeedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_playbackSpeedSliderStateChanged
+        playbackSpeed.setText(String.valueOf(playbackSpeedSlider.getValue()));
+    }//GEN-LAST:event_playbackSpeedSliderStateChanged
 
 //    /**
 //     * @param args the command line arguments
@@ -118,8 +280,21 @@ public class GUI extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> algorithmList;
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JPanel display;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JMenu optionsMenu;
+    private javax.swing.JTextField playbackSpeed;
+    private javax.swing.JSlider playbackSpeedSlider;
     private javax.swing.JCheckBoxMenuItem showBubbles;
     // End of variables declaration//GEN-END:variables
 }

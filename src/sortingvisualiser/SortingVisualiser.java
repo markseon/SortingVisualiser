@@ -22,9 +22,9 @@ public class SortingVisualiser {
     private boolean showBubbles;
     private GUI gui;
 
-    public SortingVisualiser(int length, int range) {
-        this.length = length;
-        this.range = range;
+    public SortingVisualiser() {
+        length = 20;
+        range = 20;
         algorithms = new SortingAlgorithms();
         randomNumbers = generateRandomArray(length, range);
         showBubbles = false;
@@ -40,6 +40,22 @@ public class SortingVisualiser {
 
     }
 
+    public int getLength() {
+        return length;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+    
     public final int[] generateRandomArray(int length, int range) {
         Random rand = new Random();
         int[] output = new int[length];
@@ -70,5 +86,6 @@ public class SortingVisualiser {
     
     public void setShowBubbles(boolean showBubbles) {
         this.showBubbles = showBubbles;
+        System.out.println("ShowBubbles: " + showBubbles);
     }
 }

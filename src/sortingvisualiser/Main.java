@@ -13,7 +13,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SortingVisualiser visualiser = new SortingVisualiser(949, 1000);
+        SortingVisualiser visualiser = new SortingVisualiser();
     }
     
 }
