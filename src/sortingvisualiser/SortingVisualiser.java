@@ -19,22 +19,28 @@ public class SortingVisualiser {
     private ArrayList<int[]> mergeSorted;
     private int[] randomNumbers;
     private Display display;
+    private boolean showBubbles;
+    private GUI gui;
 
     public SortingVisualiser(int length, int range) {
         this.length = length;
         this.range = range;
         algorithms = new SortingAlgorithms();
         randomNumbers = generateRandomArray(length, range);
-        display = new Display(1920, 1080);
-        sortNumbers(false);
+        showBubbles = false;
+        gui = new GUI(this);
+        gui.setVisible(true);
         
-        playSequence(bubbleSorted, 30);
-        playSequence(insertionSorted, 30);
-        playSequence(mergeSorted, 30);
+//        display = new Display(1920, 1080);
+//        sortNumbers();
+//        
+//        playSequence(bubbleSorted, 30);
+//        playSequence(insertionSorted, 30);
+//        playSequence(mergeSorted, 30);
 
     }
 
-    public int[] generateRandomArray(int length, int range) {
+    public final int[] generateRandomArray(int length, int range) {
         Random rand = new Random();
         int[] output = new int[length];
         for (int i = 0; i < length; i++) {
@@ -44,7 +50,7 @@ public class SortingVisualiser {
         return output;
     }
 
-    private void sortNumbers(boolean showBubbles) {
+    private void sortNumbers() {
         bubbleSorted = algorithms.bubbleSort(randomNumbers.clone(), showBubbles);
         insertionSorted = algorithms.insertionSort(randomNumbers.clone());
         mergeSorted = algorithms.getMergeHistory(randomNumbers.clone());
@@ -60,5 +66,9 @@ public class SortingVisualiser {
             currentTime = System.nanoTime();
             
         }
+    }
+    
+    public void setShowBubbles(boolean showBubbles) {
+        this.showBubbles = showBubbles;
     }
 }
