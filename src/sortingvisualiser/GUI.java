@@ -8,11 +8,12 @@ package sortingvisualiser;
  *
  * @author Mark
  */
-import java.awt.event.ItemEvent;
+import java.awt.Color;
+import javax.swing.JColorChooser;
 
 public class GUI extends javax.swing.JFrame {
 
-    private SortingVisualiser sortingVisualiser;
+    private final SortingVisualiser sortingVisualiser;
 
     public GUI(SortingVisualiser sortingVisualiser) {
         this.sortingVisualiser = sortingVisualiser;
@@ -50,6 +51,8 @@ public class GUI extends javax.swing.JFrame {
         range.setText(String.valueOf(sortingVisualiser.getRange()));
         playbackSpeedSlider.setValue(sortingVisualiser.getFrameRate());
         playbackSpeed.setText(String.valueOf(sortingVisualiser.getFrameRate()));
+        display.setBackgroundColour(sortingVisualiser.DEFAULT_BACKGROUND_COLOUR);
+        display.setBarColour(sortingVisualiser.DEFAULT_BAR_COLOUR);
     }
 
     public void updateDisplay(int[] frame) {
@@ -81,6 +84,9 @@ public class GUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         optionsMenu = new javax.swing.JMenu();
         showBubbles = new javax.swing.JCheckBoxMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        backgroundColour = new javax.swing.JMenuItem();
+        barColour = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sorting Visualiser");
@@ -230,6 +236,26 @@ public class GUI extends javax.swing.JFrame {
         optionsMenu.add(showBubbles);
         showBubbles.putClientProperty("CheckBoxMenuItem.doNotCloseOnMouseClick",Boolean.TRUE);
 
+        jMenu1.setText("Change Colour");
+
+        backgroundColour.setText("Background");
+        backgroundColour.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                backgroundColourMousePressed(evt);
+            }
+        });
+        jMenu1.add(backgroundColour);
+
+        barColour.setText("Bar");
+        barColour.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                barColourMousePressed(evt);
+            }
+        });
+        jMenu1.add(barColour);
+
+        optionsMenu.add(jMenu1);
+
         jMenuBar1.add(optionsMenu);
 
         setJMenuBar(jMenuBar1);
@@ -257,12 +283,6 @@ public class GUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void showBubblesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showBubblesItemStateChanged
-        sortingVisualiser.setShowBubbles(showBubbles.isSelected());
-        //optionsMenu.setPopupMenuVisible(true);
-        //optionsMenu.setSelected(true);
-    }//GEN-LAST:event_showBubblesItemStateChanged
 
     private void playActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playActionPerformed
         // TODO add your handling code here:
@@ -295,7 +315,7 @@ public class GUI extends javax.swing.JFrame {
         try {
             sortingVisualiser.setLength(Integer.parseInt(length.getText()));
             sortingVisualiser.regenerate();
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
         }
     }//GEN-LAST:event_lengthKeyReleased
@@ -304,10 +324,29 @@ public class GUI extends javax.swing.JFrame {
         try {
             sortingVisualiser.setRange(Integer.parseInt(range.getText()));
             sortingVisualiser.regenerate();
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
         }
     }//GEN-LAST:event_rangeKeyReleased
+
+    private void showBubblesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showBubblesItemStateChanged
+        sortingVisualiser.setShowBubbles(showBubbles.isSelected());
+        //optionsMenu.setPopupMenuVisible(true);
+        //optionsMenu.setSelected(true);
+    }//GEN-LAST:event_showBubblesItemStateChanged
+
+    private void backgroundColourMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backgroundColourMousePressed
+        Color newColor = JColorChooser.showDialog(null, "Colour", display.getBackgroundColour());
+        display.setBackgroundColour(newColor);
+        display.repaint();
+                
+    }//GEN-LAST:event_backgroundColourMousePressed
+
+    private void barColourMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barColourMousePressed
+        Color newColor = JColorChooser.showDialog(null, "Colour", display.getBarColour());
+        display.setBarColour(newColor);
+        display.repaint();
+    }//GEN-LAST:event_barColourMousePressed
 
 //    /**
 //     * @param args the command line arguments
@@ -346,12 +385,15 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> algorithmList;
+    private javax.swing.JMenuItem backgroundColour;
+    private javax.swing.JMenuItem barColour;
     private javax.swing.JPanel buttonPanel;
     private sortingvisualiser.Display display;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JTextField length;
     private javax.swing.JMenu optionsMenu;

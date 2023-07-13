@@ -18,25 +18,25 @@ import javax.swing.Timer;
 public class SortingVisualiser {
 
     private int length, range;
-    private SortingAlgorithms algorithms;
+    private final SortingAlgorithms algorithms;
     private ArrayList<int[]> bubbleSorted;
     private ArrayList<int[]> bubbleSortedBubbles;
     private ArrayList<int[]> insertionSorted;
     private ArrayList<int[]> mergeSorted;
     private int[] randomNumbers;
     private boolean showBubbles;
-    private GUI gui;
+    private final GUI gui;
     private int selectedAlgorithm;
     private int frameRate;
-    private String[] algorithmNames;
-    public final Color BACKGROUND_COLOUR;
-    public final Color BAR_COLOUR;
+    private final String[] algorithmNames;
+    public final Color DEFAULT_BACKGROUND_COLOUR;
+    public final Color DEFAULT_BAR_COLOUR;
 
     public SortingVisualiser() {
-        BACKGROUND_COLOUR = Color.BLACK;
-        BAR_COLOUR = Color.WHITE;
-        length = 20;
-        range = 20;
+        DEFAULT_BACKGROUND_COLOUR = Color.BLACK;
+        DEFAULT_BAR_COLOUR = Color.WHITE;
+        length = 100;
+        range = 100;
         algorithms = new SortingAlgorithms();
         showBubbles = false;
         algorithmNames = new String[]{"Bubble sort", "Insertion sort", "Merge sort"};
@@ -72,7 +72,7 @@ public class SortingVisualiser {
         this.range = range;
     }
 
-    private final int[] generateRandomArray() {
+    private int[] generateRandomArray() {
         Random rand = new Random();
         int[] output = new int[length];
         for (int i = 0; i < length; i++) {
@@ -154,5 +154,4 @@ public class SortingVisualiser {
     public void setFrameRate(int frameRate) {
         this.frameRate = frameRate;
     }
-
 }

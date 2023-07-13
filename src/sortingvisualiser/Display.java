@@ -16,20 +16,20 @@ import javax.swing.WindowConstants;
  * @author Mark
  */
 public class Display extends JPanel{
-    private final Color BACKGROUND_COLOUR, BAR_COLOUR;
+    private Color backgroundColour, barColour;
     int[] displayData;
     int heightScale;
     
     public Display() {
-        BACKGROUND_COLOUR = Color.BLACK;
-        BAR_COLOUR = Color.WHITE;
+        backgroundColour = Color.BLACK;
+        barColour = Color.WHITE;
         heightScale = 1;
     }
     
     @Override
     public void paintComponent(Graphics g) {
         // Draw the background
-        g.setColor(BACKGROUND_COLOUR);
+        g.setColor(backgroundColour);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         if (displayData != null) {
             paintBars(g);
@@ -37,7 +37,7 @@ public class Display extends JPanel{
     }
     
     public void paintBars(Graphics g) {
-        g.setColor(BAR_COLOUR);
+        g.setColor(barColour);
         int barWidth = (int) (getWidth() / displayData.length);
         //System.out.println("Width: " + getWidth());
         //System.out.println("barWidth: " + barWidth);
@@ -61,5 +61,21 @@ public class Display extends JPanel{
 
         repaint();
     } 
+
+    public void setBackgroundColour(Color backgroundColour) {
+        this.backgroundColour = backgroundColour;
+    }
+
+    public void setBarColour(Color barColour) {
+        this.barColour = barColour;
+    }
+
+    public Color getBackgroundColour() {
+        return backgroundColour;
+    }
+
+    public Color getBarColour() {
+        return barColour;
+    }
     
 }

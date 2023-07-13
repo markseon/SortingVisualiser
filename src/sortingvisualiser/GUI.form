@@ -21,6 +21,29 @@
                 <AuxValue name="JavaCodeGenerator_allCodePost" type="java.lang.String" value="showBubbles.putClientProperty(&quot;CheckBoxMenuItem.doNotCloseOnMouseClick&quot;,Boolean.TRUE);&#xd;&#xa;"/>
               </AuxValues>
             </MenuItem>
+            <Menu class="javax.swing.JMenu" name="jMenu1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Change Colour"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="backgroundColour">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Background"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="backgroundColourMousePressed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="barColour">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Bar"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="barColourMousePressed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
           </SubComponents>
         </Menu>
       </SubComponents>
