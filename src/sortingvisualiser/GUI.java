@@ -8,6 +8,8 @@ package sortingvisualiser;
  *
  * @author Mark
  */
+import java.awt.event.ItemEvent;
+
 public class GUI extends javax.swing.JFrame {
 
     private SortingVisualiser sortingVisualiser;
@@ -16,8 +18,9 @@ public class GUI extends javax.swing.JFrame {
         this.sortingVisualiser = sortingVisualiser;
         initDesign();
         initComponents();
+        initFields();
     }
-    
+
     private void initDesign() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -37,6 +40,22 @@ public class GUI extends javax.swing.JFrame {
         }
     }
 
+    private void initFields() {
+        showBubbles.setState(sortingVisualiser.isShowBubbles());
+        for (String algorithm : sortingVisualiser.getAlgorithmNames()) {
+            algorithmList.addItem(algorithm);
+        }
+        algorithmList.setSelectedIndex(sortingVisualiser.getSelectedAlgorithm());
+        length.setText(String.valueOf(sortingVisualiser.getLength()));
+        range.setText(String.valueOf(sortingVisualiser.getRange()));
+        playbackSpeedSlider.setValue(sortingVisualiser.getFrameRate());
+        playbackSpeed.setText(String.valueOf(sortingVisualiser.getFrameRate()));
+    }
+
+    public void updateDisplay(int[] frame) {
+        display.update(frame);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,19 +65,19 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        display = new javax.swing.JPanel();
         buttonPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         algorithmList = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        play = new javax.swing.JButton();
+        regenerate = new javax.swing.JButton();
+        length = new javax.swing.JTextField();
+        range = new javax.swing.JTextField();
         playbackSpeedSlider = new javax.swing.JSlider();
         playbackSpeed = new javax.swing.JTextField();
+        display = new sortingvisualiser.Display();
         jMenuBar1 = new javax.swing.JMenuBar();
         optionsMenu = new javax.swing.JMenu();
         showBubbles = new javax.swing.JCheckBoxMenuItem();
@@ -67,24 +86,15 @@ public class GUI extends javax.swing.JFrame {
         setTitle("Sorting Visualiser");
         setName("mainWindow"); // NOI18N
 
-        display.setPreferredSize(new java.awt.Dimension(1280, 720));
-
-        javax.swing.GroupLayout displayLayout = new javax.swing.GroupLayout(display);
-        display.setLayout(displayLayout);
-        displayLayout.setHorizontalGroup(
-            displayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        displayLayout.setVerticalGroup(
-            displayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         buttonPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setText("Sorting Algorithm");
 
-        algorithmList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bubble Sort", "Inserstion Sort", "Merge Sort", " " }));
+        algorithmList.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                algorithmListItemStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Length");
 
@@ -92,32 +102,48 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel4.setText("Playback speed");
 
-        jButton1.setText("Play");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        play.setText("Play");
+        play.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                playMousePressed(evt);
+            }
+        });
+        play.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                playActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Regenerate numbers");
+        regenerate.setText("Regenerate numbers");
+        regenerate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                regenerateMousePressed(evt);
+            }
+        });
+
+        length.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                lengthKeyReleased(evt);
+            }
+        });
+
+        range.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                rangeKeyReleased(evt);
+            }
+        });
 
         playbackSpeedSlider.setMajorTickSpacing(1);
-        playbackSpeedSlider.setMaximum(240);
         playbackSpeedSlider.setMinimum(1);
         playbackSpeedSlider.setMinorTickSpacing(1);
+        playbackSpeedSlider.setValue(1);
         playbackSpeedSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 playbackSpeedSliderStateChanged(evt);
             }
         });
-        playbackSpeedSlider.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                playbackSpeedSliderPropertyChange(evt);
-            }
-        });
 
         playbackSpeed.setEditable(false);
-        playbackSpeed.setText("30");
         playbackSpeed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 playbackSpeedActionPerformed(evt);
@@ -143,13 +169,13 @@ public class GUI extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(algorithmList, 0, 191, Short.MAX_VALUE)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField2)
+                                    .addComponent(length)
+                                    .addComponent(range)
                                     .addComponent(playbackSpeed)))
                             .addGroup(buttonPanelLayout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(play)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2)))
+                                .addComponent(regenerate)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -163,10 +189,10 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(length, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(range, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,9 +202,20 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(playbackSpeedSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(play)
+                    .addComponent(regenerate))
                 .addContainerGap(451, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout displayLayout = new javax.swing.GroupLayout(display);
+        display.setLayout(displayLayout);
+        displayLayout.setHorizontalGroup(
+            displayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1280, Short.MAX_VALUE)
+        );
+        displayLayout.setVerticalGroup(
+            displayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         optionsMenu.setText("Options");
@@ -213,8 +250,8 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -227,22 +264,50 @@ public class GUI extends javax.swing.JFrame {
         //optionsMenu.setSelected(true);
     }//GEN-LAST:event_showBubblesItemStateChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void playActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_playActionPerformed
 
     private void playbackSpeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playbackSpeedActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_playbackSpeedActionPerformed
 
-    private void playbackSpeedSliderPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_playbackSpeedSliderPropertyChange
-        //playbackSpeed.setText(String.valueOf(playbackSpeedSlider.getValue()));
-        //System.out.println("Slider adjusted");
-    }//GEN-LAST:event_playbackSpeedSliderPropertyChange
-
     private void playbackSpeedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_playbackSpeedSliderStateChanged
         playbackSpeed.setText(String.valueOf(playbackSpeedSlider.getValue()));
+        sortingVisualiser.setFrameRate(playbackSpeedSlider.getValue());
     }//GEN-LAST:event_playbackSpeedSliderStateChanged
+
+    private void algorithmListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_algorithmListItemStateChanged
+        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+            sortingVisualiser.setSelectedAlgorithm(algorithmList.getSelectedIndex());
+        }
+    }//GEN-LAST:event_algorithmListItemStateChanged
+
+    private void playMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playMousePressed
+        sortingVisualiser.playSequence();
+    }//GEN-LAST:event_playMousePressed
+
+    private void regenerateMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regenerateMousePressed
+        sortingVisualiser.regenerate();
+    }//GEN-LAST:event_regenerateMousePressed
+
+    private void lengthKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lengthKeyReleased
+        try {
+            sortingVisualiser.setLength(Integer.parseInt(length.getText()));
+            sortingVisualiser.regenerate();
+        } catch (Exception e) {
+
+        }
+    }//GEN-LAST:event_lengthKeyReleased
+
+    private void rangeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rangeKeyReleased
+        try {
+            sortingVisualiser.setRange(Integer.parseInt(range.getText()));
+            sortingVisualiser.regenerate();
+        } catch (Exception e) {
+
+        }
+    }//GEN-LAST:event_rangeKeyReleased
 
 //    /**
 //     * @param args the command line arguments
@@ -282,19 +347,19 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> algorithmList;
     private javax.swing.JPanel buttonPanel;
-    private javax.swing.JPanel display;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private sortingvisualiser.Display display;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField length;
     private javax.swing.JMenu optionsMenu;
+    private javax.swing.JButton play;
     private javax.swing.JTextField playbackSpeed;
     private javax.swing.JSlider playbackSpeedSlider;
+    private javax.swing.JTextField range;
+    private javax.swing.JButton regenerate;
     private javax.swing.JCheckBoxMenuItem showBubbles;
     // End of variables declaration//GEN-END:variables
 }

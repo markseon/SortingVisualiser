@@ -16,23 +16,14 @@ import javax.swing.WindowConstants;
  * @author Mark
  */
 public class Display extends JPanel{
-    private static JFrame mainWindow;
     private final Color BACKGROUND_COLOUR, BAR_COLOUR;
     int[] displayData;
     int heightScale;
     
-    public Display(int windowWidth, int windowHeight) {
+    public Display() {
         BACKGROUND_COLOUR = Color.BLACK;
         BAR_COLOUR = Color.WHITE;
         heightScale = 1;
-        
-        mainWindow = new JFrame("Sorting visualiser");
-        mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainWindow.pack();
-        mainWindow.setSize(windowWidth, windowHeight);
-        mainWindow.setVisible(true);
-        mainWindow.setLayout(new BorderLayout());
-        mainWindow.setContentPane(this);
     }
     
     @Override
