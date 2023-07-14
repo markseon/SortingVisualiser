@@ -17,22 +17,23 @@ import javax.swing.Timer;
  */
 public class SortingVisualiser {
 
-    private int length, range;
+    public final Color DEFAULT_BACKGROUND_COLOUR;
+    public final Color DEFAULT_BAR_COLOUR;
+    private final String[] algorithmNames;
     private final SortingAlgorithms algorithms;
     private ArrayList<int[]> bubbleSorted;
     private ArrayList<int[]> bubbleSortedBubbles;
+    private int frameRate;
+    private final GUI gui;
     private ArrayList<int[]> insertionSorted;
+    private boolean isRunning;
+    private int length;
     private ArrayList<int[]> mergeSorted;
     private int[] randomNumbers;
-    private boolean showBubbles;
-    private final GUI gui;
+    private int range;
     private int selectedAlgorithm;
-    private int frameRate;
-    private final String[] algorithmNames;
-    public final Color DEFAULT_BACKGROUND_COLOUR;
-    public final Color DEFAULT_BAR_COLOUR;
-    Timer timer;
-    boolean isRunning;
+    private boolean showBubbles;
+    private Timer timer;
 
     public SortingVisualiser() {
         isRunning = false;
@@ -59,49 +60,57 @@ public class SortingVisualiser {
 //        playSequence(mergeSorted, 30);
     }
 
+    public String[] getAlgorithmNames() {
+        return algorithmNames;
+    }
+
+    public int getFrameRate() {
+        return frameRate;
+    }
+    public void setFrameRate(int frameRate) {
+        this.frameRate = frameRate;
+        if (isRunning) {
+            timer.setDelay(1000 / frameRate);
+        }
+    }
+
     public int getLength() {
         return length;
     }
-
-    public int getRange() {
-        return range;
-    }
-
     public void setLength(int length) {
         this.length = length;
         regenerate();
     }
 
+    public int getRange() {
+        return range;
+    }
     public void setRange(int range) {
         this.range = range;
         regenerate();
     }
 
-    private int[] generateRandomArray() {
-        Random rand = new Random();
-        int[] output = new int[length];
-        for (int i = 0; i < length; i++) {
-            output[i] = rand.nextInt(range);
+    public int getSelectedAlgorithm() {
+        return selectedAlgorithm;
+    }
+    public void setSelectedAlgorithm(int selectedAlgorithm) {
+        this.selectedAlgorithm = selectedAlgorithm;
+        if (isRunning) {
+            stop();
         }
-
-        return output;
     }
 
-    public void regenerate() {
+    public boolean isShowBubbles() {
+        return showBubbles;
+    }
+    public void setShowBubbles(boolean showBubbles) {
+        this.showBubbles = showBubbles;
+    }
+
+    public void pause() {
         if (isRunning) {
             timer.stop();
-            isRunning = false;
         }
-        randomNumbers = generateRandomArray();
-        sortNumbers();
-        gui.updateDisplay(randomNumbers);
-    }
-
-    private void sortNumbers() {
-        bubbleSortedBubbles = algorithms.bubbleSort(randomNumbers.clone(), true);
-        bubbleSorted = algorithms.bubbleSort(randomNumbers.clone(), false);
-        insertionSorted = algorithms.insertionSort(randomNumbers.clone());
-        mergeSorted = algorithms.getMergeHistory(randomNumbers.clone());
     }
 
     public void playSequence() {
@@ -132,51 +141,40 @@ public class SortingVisualiser {
         }
     }
 
-    public void setShowBubbles(boolean showBubbles) {
-        this.showBubbles = showBubbles;
-    }
-
-    public boolean isShowBubbles() {
-        return showBubbles;
-    }
-
-    public int getSelectedAlgorithm() {
-        return selectedAlgorithm;
-    }
-
-    public int getFrameRate() {
-        return frameRate;
-    }
-
-    public void setSelectedAlgorithm(int selectedAlgorithm) {
-        this.selectedAlgorithm = selectedAlgorithm;
-        if(isRunning) {
-            stop();
+    public void regenerate() {
+        if (isRunning) {
+            timer.stop();
+            isRunning = false;
         }
+        randomNumbers = generateRandomArray();
+        sortNumbers();
+        gui.updateDisplay(randomNumbers);
     }
 
-    public String[] getAlgorithmNames() {
-        return algorithmNames;
-    }
-
-    public void setFrameRate(int frameRate) {
-        this.frameRate = frameRate;
-        if(isRunning) {
-            timer.setDelay(1000 / frameRate);
-        }
-    }
 
     public void stop() {
-        if(isRunning) {
-        timer.stop();
-        isRunning = false;
-        gui.updateDisplay(randomNumbers);
+        if (isRunning) {
+            timer.stop();
+            isRunning = false;
+            gui.updateDisplay(randomNumbers);
         }
     }
-    
-    public void pause() {
-        if(isRunning){
-        timer.stop();
+
+    private int[] generateRandomArray() {
+        Random rand = new Random();
+        int[] output = new int[length];
+        for (int i = 0; i < length; i++) {
+            output[i] = rand.nextInt(range);
         }
+
+        return output;
     }
+
+    private void sortNumbers() {
+        bubbleSortedBubbles = algorithms.bubbleSort(randomNumbers.clone(), true);
+        bubbleSorted = algorithms.bubbleSort(randomNumbers.clone(), false);
+        insertionSorted = algorithms.insertionSort(randomNumbers.clone());
+        mergeSorted = algorithms.getMergeHistory(randomNumbers.clone());
+    }
+
 }
