@@ -69,10 +69,12 @@ public class SortingVisualiser {
 
     public void setLength(int length) {
         this.length = length;
+        regenerate();
     }
 
     public void setRange(int range) {
         this.range = range;
+        regenerate();
     }
 
     private int[] generateRandomArray() {
@@ -86,6 +88,10 @@ public class SortingVisualiser {
     }
 
     public void regenerate() {
+        if (isRunning) {
+            timer.stop();
+            isRunning = false;
+        }
         randomNumbers = generateRandomArray();
         sortNumbers();
         gui.updateDisplay(randomNumbers);
@@ -144,6 +150,9 @@ public class SortingVisualiser {
 
     public void setSelectedAlgorithm(int selectedAlgorithm) {
         this.selectedAlgorithm = selectedAlgorithm;
+        if(isRunning) {
+            stop();
+        }
     }
 
     public String[] getAlgorithmNames() {

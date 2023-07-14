@@ -344,8 +344,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void lengthKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lengthKeyReleased
         try {
-            sortingVisualiser.setLength(Integer.parseInt(length.getText()));
-            sortingVisualiser.regenerate();
+            sortingVisualiser.setLength(Integer.parseInt(length.getText()));            
         } catch (NumberFormatException e) {
 
         }
@@ -354,7 +353,6 @@ public class GUI extends javax.swing.JFrame {
     private void rangeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rangeKeyReleased
         try {
             sortingVisualiser.setRange(Integer.parseInt(range.getText()));
-            sortingVisualiser.regenerate();
         } catch (NumberFormatException e) {
 
         }
