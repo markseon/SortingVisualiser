@@ -31,8 +31,11 @@ public class SortingVisualiser {
     private final String[] algorithmNames;
     public final Color DEFAULT_BACKGROUND_COLOUR;
     public final Color DEFAULT_BAR_COLOUR;
+    Timer timer;
+    boolean isRunning;
 
     public SortingVisualiser() {
+        isRunning = false;
         DEFAULT_BACKGROUND_COLOUR = Color.BLACK;
         DEFAULT_BAR_COLOUR = Color.WHITE;
         length = 100;
@@ -96,35 +99,31 @@ public class SortingVisualiser {
     }
 
     public void playSequence() {
-        ArrayList<int[]> selectedList = switch (selectedAlgorithm) {
-            case 0 ->
-                showBubbles ? bubbleSortedBubbles : bubbleSorted;
-            case 1 ->
-                insertionSorted;
-            case 2 ->
-                mergeSorted;
-            default ->
-                new ArrayList<>();
-        };
-//        long delayNs = (long) (1000000000 / frameRate);
-//        long currentTime = System.nanoTime();
-//        for (int[] frame : selectedList) {
-//            gui.updateDisplay(frame);
-//            while (System.nanoTime() < currentTime + delayNs) {
-//            }
-//            currentTime = System.nanoTime();
-//            System.out.println("Frameplayed");
-//
-//        }
-        Iterator<int[]> it = selectedList.iterator();
-        Timer timer = new Timer(1000 / frameRate, (ActionEvent e) -> {
-            if (it.hasNext()) {
-                gui.updateDisplay(it.next());
-            } else {
-                ((Timer) e.getSource()).stop();
-            }
-        });
-        timer.start();
+        if (isRunning) {
+            timer.start();
+        } else {
+            ArrayList<int[]> selectedList = switch (selectedAlgorithm) {
+                case 0 ->
+                    showBubbles ? bubbleSortedBubbles : bubbleSorted;
+                case 1 ->
+                    insertionSorted;
+                case 2 ->
+                    mergeSorted;
+                default ->
+                    new ArrayList<>();
+            };
+            Iterator<int[]> it = selectedList.iterator();
+            timer = new Timer(1000 / frameRate, (ActionEvent e) -> {
+                isRunning = true;
+                if (it.hasNext()) {
+                    gui.updateDisplay(it.next());
+                } else {
+                    ((Timer) e.getSource()).stop();
+                    isRunning = false;
+                }
+            });
+            timer.start();
+        }
     }
 
     public void setShowBubbles(boolean showBubbles) {
@@ -153,5 +152,22 @@ public class SortingVisualiser {
 
     public void setFrameRate(int frameRate) {
         this.frameRate = frameRate;
+        if(isRunning) {
+            timer.setDelay(1000 / frameRate);
+        }
+    }
+
+    public void stop() {
+        if(isRunning) {
+        timer.stop();
+        isRunning = false;
+        gui.updateDisplay(randomNumbers);
+        }
+    }
+    
+    public void pause() {
+        if(isRunning){
+        timer.stop();
+        }
     }
 }
