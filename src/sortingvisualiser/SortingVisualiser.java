@@ -113,6 +113,8 @@ public class SortingVisualiser {
         this.selectedAlgorithm = selectedAlgorithm;
         if (isRunning) {
             stop();
+        } else if (gui != null){
+            gui.updateDisplay(randomNumbers);
         }
     }
 
@@ -172,6 +174,8 @@ public class SortingVisualiser {
         if (isRunning) {
             timer.stop();
             isRunning = false;
+            gui.updateDisplay(randomNumbers);
+        } else {
             gui.updateDisplay(randomNumbers);
         }
     }
