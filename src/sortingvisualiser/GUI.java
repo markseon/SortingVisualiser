@@ -46,17 +46,29 @@ public class GUI extends javax.swing.JFrame {
         for (String algorithm : sortingVisualiser.getAlgorithmNames()) {
             algorithmList.addItem(algorithm);
         }
+        display.setBackgroundColour(sortingVisualiser.DEFAULT_BACKGROUND_COLOUR);
+        display.setBarColour(sortingVisualiser.DEFAULT_BAR_COLOUR);
+        updateFields();
+    }
+
+    public void updateFields() {
         algorithmList.setSelectedIndex(sortingVisualiser.getSelectedAlgorithm());
         length.setText(String.valueOf(sortingVisualiser.getLength()));
         range.setText(String.valueOf(sortingVisualiser.getRange()));
         playbackSpeedSlider.setValue(sortingVisualiser.getFrameRate());
         playbackSpeed.setText(String.valueOf(sortingVisualiser.getFrameRate()));
-        display.setBackgroundColour(sortingVisualiser.DEFAULT_BACKGROUND_COLOUR);
-        display.setBarColour(sortingVisualiser.DEFAULT_BAR_COLOUR);
     }
 
     public void updateDisplay(int[] frame) {
         display.update(frame);
+    }
+
+    public void setBackgroundColour(Color backgroundColour) {
+        display.setBackgroundColour(backgroundColour);
+    }
+
+    public void setBarColour(Color barColour) {
+        display.setBarColour(barColour);
     }
 
     /**
@@ -89,6 +101,8 @@ public class GUI extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         backgroundColour = new javax.swing.JMenuItem();
         barColour = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        delete = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sorting Visualiser");
@@ -188,26 +202,23 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(playbackSpeedSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(buttonPanelLayout.createSequentialGroup()
                         .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(buttonPanelLayout.createSequentialGroup()
-                                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(length, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(algorithmList, javax.swing.GroupLayout.Alignment.LEADING, 0, 115, Short.MAX_VALUE)
-                                    .addComponent(playbackSpeed, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(range, javax.swing.GroupLayout.Alignment.LEADING)))
-                            .addGroup(buttonPanelLayout.createSequentialGroup()
-                                .addComponent(play, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(regenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(length, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(algorithmList, javax.swing.GroupLayout.Alignment.LEADING, 0, 115, Short.MAX_VALUE)
+                            .addComponent(playbackSpeed, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(range, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addGroup(buttonPanelLayout.createSequentialGroup()
+                        .addComponent(play, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(regenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         buttonPanelLayout.setVerticalGroup(
@@ -287,6 +298,22 @@ public class GUI extends javax.swing.JFrame {
 
         optionsMenu.add(jMenu1);
 
+        jMenuItem1.setText("Save Settings");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuItem1MousePressed(evt);
+            }
+        });
+        optionsMenu.add(jMenuItem1);
+
+        delete.setText("Reset Settings");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                deleteMousePressed(evt);
+            }
+        });
+        optionsMenu.add(delete);
+
         jMenuBar1.add(optionsMenu);
 
         setJMenuBar(jMenuBar1);
@@ -344,7 +371,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void lengthKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lengthKeyReleased
         try {
-            sortingVisualiser.setLength(Integer.parseInt(length.getText()));            
+            sortingVisualiser.setLength(Integer.parseInt(length.getText()));
         } catch (NumberFormatException e) {
 
         }
@@ -368,7 +395,7 @@ public class GUI extends javax.swing.JFrame {
         Color newColor = JColorChooser.showDialog(null, "Colour", display.getBackgroundColour());
         display.setBackgroundColour(newColor);
         display.repaint();
-                
+
     }//GEN-LAST:event_backgroundColourMousePressed
 
     private void barColourMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barColourMousePressed
@@ -388,6 +415,14 @@ public class GUI extends javax.swing.JFrame {
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
         sortingVisualiser.pause();
     }//GEN-LAST:event_jButton2MousePressed
+
+    private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
+        sortingVisualiser.saveSettings(display.getBackgroundColour(), display.getBarColour());
+    }//GEN-LAST:event_jMenuItem1MousePressed
+
+    private void deleteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMousePressed
+        sortingVisualiser.deleteSettings();
+    }//GEN-LAST:event_deleteMousePressed
 
 //    /**
 //     * @param args the command line arguments
@@ -429,6 +464,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem backgroundColour;
     private javax.swing.JMenuItem barColour;
     private javax.swing.JPanel buttonPanel;
+    private javax.swing.JMenuItem delete;
     private sortingvisualiser.Display display;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -438,6 +474,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JTextField length;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JButton play;
