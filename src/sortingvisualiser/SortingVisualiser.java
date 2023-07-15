@@ -237,8 +237,8 @@ public class SortingVisualiser {
     }
 
     public void deleteSettings() {
-        File settings = new File(SAVE_FILENAME);
-        settings.delete();
+        File settingsFile = new File(SAVE_FILENAME);
+        settingsFile.delete();
         initDefaults();
         gui.updateFields();
         regenerate();
