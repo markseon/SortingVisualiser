@@ -195,6 +195,7 @@ public class SortingVisualiser {
         bubbleSorted = algorithms.bubbleSort(randomNumbers.clone(), false);
         insertionSorted = algorithms.insertionSort(randomNumbers.clone());
         mergeSorted = algorithms.getMergeHistory(randomNumbers.clone());
+        System.gc();
     }
 
     public void saveSettings(Color backgroundColour, Color barColour) {
