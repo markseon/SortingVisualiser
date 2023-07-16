@@ -54,7 +54,9 @@ public class GUI extends javax.swing.JFrame {
     public void updateFields() {
         algorithmList.setSelectedIndex(sortingVisualiser.getSelectedAlgorithm());
         length.setText(String.valueOf(sortingVisualiser.getLength()));
+        lengthSlider.setValue(sortingVisualiser.getLength());
         range.setText(String.valueOf(sortingVisualiser.getRange()));
+        rangeSlider.setValue(sortingVisualiser.getRange());
         playbackSpeedSlider.setValue(sortingVisualiser.getFrameRate());
         playbackSpeed.setText(String.valueOf(sortingVisualiser.getFrameRate()));
     }
@@ -94,6 +96,8 @@ public class GUI extends javax.swing.JFrame {
         playbackSpeed = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        rangeSlider = new javax.swing.JSlider();
+        lengthSlider = new javax.swing.JSlider();
         display = new sortingvisualiser.Display();
         jMenuBar1 = new javax.swing.JMenuBar();
         optionsMenu = new javax.swing.JMenu();
@@ -149,17 +153,9 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        length.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                lengthKeyReleased(evt);
-            }
-        });
+        length.setEditable(false);
 
-        range.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                rangeKeyReleased(evt);
-            }
-        });
+        range.setEditable(false);
 
         playbackSpeedSlider.setMajorTickSpacing(1);
         playbackSpeedSlider.setMinimum(1);
@@ -192,6 +188,22 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        rangeSlider.setMaximum(1000);
+        rangeSlider.setMinimum(10);
+        rangeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rangeSliderStateChanged(evt);
+            }
+        });
+
+        lengthSlider.setMaximum(1000);
+        lengthSlider.setMinimum(10);
+        lengthSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                lengthSliderStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
@@ -199,26 +211,32 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(buttonPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rangeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(playbackSpeedSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(buttonPanelLayout.createSequentialGroup()
+                        .addComponent(play, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
                     .addGroup(buttonPanelLayout.createSequentialGroup()
                         .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(length, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(algorithmList, javax.swing.GroupLayout.Alignment.LEADING, 0, 115, Short.MAX_VALUE)
-                            .addComponent(playbackSpeed, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(range, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(algorithmList, javax.swing.GroupLayout.Alignment.TRAILING, 0, 115, Short.MAX_VALUE)
+                            .addComponent(range, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(length, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(buttonPanelLayout.createSequentialGroup()
-                        .addComponent(play, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(regenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(playbackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(buttonPanelLayout.createSequentialGroup()
+                        .addComponent(regenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lengthSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         buttonPanelLayout.setVerticalGroup(
@@ -226,17 +244,21 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(buttonPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
                     .addComponent(algorithmList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(length, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lengthSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(range, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rangeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
                 .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(playbackSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
@@ -259,7 +281,7 @@ public class GUI extends javax.swing.JFrame {
         display.setLayout(displayLayout);
         displayLayout.setHorizontalGroup(
             displayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1275, Short.MAX_VALUE)
+            .addGap(0, 1263, Short.MAX_VALUE)
         );
         displayLayout.setVerticalGroup(
             displayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,7 +346,7 @@ public class GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, 1275, Short.MAX_VALUE)
+                .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, 1263, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -369,22 +391,6 @@ public class GUI extends javax.swing.JFrame {
         sortingVisualiser.regenerate();
     }//GEN-LAST:event_regenerateMousePressed
 
-    private void lengthKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lengthKeyReleased
-        try {
-            sortingVisualiser.setLength(Integer.parseInt(length.getText()));
-        } catch (NumberFormatException e) {
-
-        }
-    }//GEN-LAST:event_lengthKeyReleased
-
-    private void rangeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rangeKeyReleased
-        try {
-            sortingVisualiser.setRange(Integer.parseInt(range.getText()));
-        } catch (NumberFormatException e) {
-
-        }
-    }//GEN-LAST:event_rangeKeyReleased
-
     private void showBubblesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showBubblesItemStateChanged
         sortingVisualiser.setShowBubbles(showBubbles.isSelected());
         //optionsMenu.setPopupMenuVisible(true);
@@ -423,6 +429,16 @@ public class GUI extends javax.swing.JFrame {
     private void deleteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMousePressed
         sortingVisualiser.deleteSettings();
     }//GEN-LAST:event_deleteMousePressed
+
+    private void rangeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rangeSliderStateChanged
+        range.setText(String.valueOf(rangeSlider.getValue()));
+        sortingVisualiser.setRange(rangeSlider.getValue());
+    }//GEN-LAST:event_rangeSliderStateChanged
+
+    private void lengthSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_lengthSliderStateChanged
+        length.setText(String.valueOf(lengthSlider.getValue()));
+        sortingVisualiser.setLength(lengthSlider.getValue());
+    }//GEN-LAST:event_lengthSliderStateChanged
 
 //    /**
 //     * @param args the command line arguments
@@ -476,11 +492,13 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JTextField length;
+    private javax.swing.JSlider lengthSlider;
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JButton play;
     private javax.swing.JTextField playbackSpeed;
     private javax.swing.JSlider playbackSpeedSlider;
     private javax.swing.JTextField range;
+    private javax.swing.JSlider rangeSlider;
     private javax.swing.JButton regenerate;
     private javax.swing.JCheckBoxMenuItem showBubbles;
     // End of variables declaration//GEN-END:variables

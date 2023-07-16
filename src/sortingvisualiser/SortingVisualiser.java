@@ -92,8 +92,10 @@ public class SortingVisualiser {
     }
 
     public void setLength(int length) {
-        this.length = length;
-        regenerate();
+        if (this.gui != null) {
+            this.length = length;
+            regenerate();
+        }
     }
 
     public int getRange() {
@@ -101,8 +103,10 @@ public class SortingVisualiser {
     }
 
     public void setRange(int range) {
-        this.range = range;
-        regenerate();
+        if (this.gui != null) {
+            this.range = range;
+            regenerate();
+        }
     }
 
     public int getSelectedAlgorithm() {
@@ -113,7 +117,7 @@ public class SortingVisualiser {
         this.selectedAlgorithm = selectedAlgorithm;
         if (isRunning) {
             stop();
-        } else if (gui != null){
+        } else if (gui != null) {
             gui.updateDisplay(randomNumbers);
         }
     }
