@@ -432,12 +432,16 @@ public class GUI extends javax.swing.JFrame {
 
     private void rangeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rangeSliderStateChanged
         range.setText(String.valueOf(rangeSlider.getValue()));
-        sortingVisualiser.setRange(rangeSlider.getValue());
+        if (!rangeSlider.getValueIsAdjusting()) {
+            sortingVisualiser.setRange(rangeSlider.getValue());
+        }
     }//GEN-LAST:event_rangeSliderStateChanged
 
     private void lengthSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_lengthSliderStateChanged
         length.setText(String.valueOf(lengthSlider.getValue()));
-        sortingVisualiser.setLength(lengthSlider.getValue());
+        if (!lengthSlider.getValueIsAdjusting()) {            
+            sortingVisualiser.setLength(lengthSlider.getValue());
+        }
     }//GEN-LAST:event_lengthSliderStateChanged
 
 //    /**
