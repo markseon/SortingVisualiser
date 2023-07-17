@@ -4,8 +4,8 @@
  */
 package sortingvisualiser;
 /**
- *
- * @author Mark
+ * This class contains the main method used to launch the application.
+ * @author Mark Seon
  */
 public class Main {
 

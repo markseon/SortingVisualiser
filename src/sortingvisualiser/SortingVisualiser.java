@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package sortingvisualiser;
 
 import java.awt.Color;
@@ -19,13 +15,28 @@ import java.util.Random;
 import javax.swing.Timer;
 
 /**
+ * The SortingVisualiser class allows the user view a visualisation of several
+ * sorting algorithms based on parameters that they supply.
  *
- * @author Mark
+ * This class launches the GUI and contains methods to respond to actions
+ * initiated by the user.
+ *
+ * @author Mark Seon
  */
 public class SortingVisualiser {
-
+    
+    /**
+     * The default background colour for the display.
+     */
     public final Color DEFAULT_BACKGROUND_COLOUR;
+    /**
+     * The default bar colour for the display.
+     */
     public final Color DEFAULT_BAR_COLOUR;
+    /**
+     * The name of the file that settings are saved to.
+     */
+    public final String SAVE_FILENAME;
     private final String[] algorithmNames;
     private final SortingAlgorithms algorithms;
     private ArrayList<int[]> bubbleSorted;
@@ -39,11 +50,13 @@ public class SortingVisualiser {
     private int[] randomNumbers;
     private int range;
     private int selectedAlgorithm;
+    private Settings settings;
     private boolean showBubbles;
     private Timer timer;
-    private Settings settings;
-    public final String SAVE_FILENAME;
 
+    /**
+     * Creates a new Sorting Visualiser
+     */
     public SortingVisualiser() {
         isRunning = false;
         DEFAULT_BACKGROUND_COLOUR = Color.BLACK;
@@ -62,24 +75,44 @@ public class SortingVisualiser {
         loadSettings();
         gui.setVisible(true);
         gui.updateDisplay(randomNumbers);
-
+    }
+    /**
+     * Deletes the settings file and resets this objects fields to their default values.
+     */
+    public void deleteSettings() {
+        File settingsFile = new File(SAVE_FILENAME);
+        settingsFile.delete();
+        initDefaults();
+        gui.updateFields();
+        regenerate();
+        gui.setBackgroundColour(DEFAULT_BACKGROUND_COLOUR);
+        gui.setBarColour(DEFAULT_BAR_COLOUR);
+        gui.repaint();
     }
 
-    private void initDefaults() {
-        length = 100;
-        range = 100;
-        selectedAlgorithm = 0;
-        frameRate = 30;
-    }
-
+    /**
+     * Returns a list containing the names of the available sorting algorithms.
+     *
+     * @return A list of the available sorting algorithms
+     */
     public String[] getAlgorithmNames() {
         return algorithmNames;
     }
 
+    /**
+     * Returns the current frame rate used during playback.
+     *
+     * @return The frame rate used during playback.
+     */
     public int getFrameRate() {
         return frameRate;
     }
 
+    /**
+     * Sets the frame rate used during playback.
+     *
+     * @param frameRate The new frame rate to be used during playback.
+     */
     public void setFrameRate(int frameRate) {
         this.frameRate = frameRate;
         if (isRunning) {
@@ -87,10 +120,20 @@ public class SortingVisualiser {
         }
     }
 
+    /**
+     * Returns the length of the generated random number list.
+     *
+     * @return The length of the random number list.
+     */
     public int getLength() {
         return length;
     }
 
+    /**
+     * Sets the length of the generated random number list.
+     *
+     * @param length The length of the random number list.
+     */
     public void setLength(int length) {
         if (this.gui != null) {
             this.length = length;
@@ -98,10 +141,20 @@ public class SortingVisualiser {
         }
     }
 
+    /**
+     * Gets the range of numbers in the generated random number list.
+     *
+     * @return The range of numbers to be generated.
+     */
     public int getRange() {
         return range;
     }
 
+    /**
+     * Sets the range of numbers in the generated random number list.
+     *
+     * @param range The range of numbers to be generated.
+     */
     public void setRange(int range) {
         if (this.gui != null) {
             this.range = range;
@@ -109,10 +162,22 @@ public class SortingVisualiser {
         }
     }
 
+    /**
+     * Returns the index of the currently selected algorithm in the
+     * algorithmNames list.
+     *
+     * @return The currently selected sorting algorithm.
+     */
     public int getSelectedAlgorithm() {
         return selectedAlgorithm;
     }
 
+    /**
+     * Sets the selected sorting algorithm.
+     *
+     * @param selectedAlgorithm The selected sorting algorithm as an index in
+     * the algorithmNames list.
+     */
     public void setSelectedAlgorithm(int selectedAlgorithm) {
         this.selectedAlgorithm = selectedAlgorithm;
         if (isRunning) {
@@ -122,20 +187,38 @@ public class SortingVisualiser {
         }
     }
 
+    /**
+     * Returns whether individual numbers "bubbling" to the top is shown for
+     * bubble sort.
+     *
+     * @return True if "bubbles" are shown in bubble sort.
+     */
     public boolean isShowBubbles() {
         return showBubbles;
     }
 
+    /**
+     * Sets whether individual numbers "bubbling" to the top is shown for bubble
+     * sort.
+     *
+     * @param showBubbles Whether bubbles should be shown in bubble sort.
+     */
     public void setShowBubbles(boolean showBubbles) {
         this.showBubbles = showBubbles;
     }
 
+    /**
+     * Pauses playback.
+     */
     public void pause() {
         if (isRunning) {
             timer.stop();
         }
     }
 
+    /**
+     * Begins playback
+     */
     public void playSequence() {
         if (isRunning) {
             timer.start();
@@ -164,6 +247,9 @@ public class SortingVisualiser {
         }
     }
 
+    /**
+     * Generates a new random number list and updates the display.
+     */
     public void regenerate() {
         if (isRunning) {
             timer.stop();
@@ -173,17 +259,48 @@ public class SortingVisualiser {
         sortNumbers();
         gui.updateDisplay(randomNumbers);
     }
+    /**
+     *  Saves the user's settings as a text file containing a serialised Settings object.
+     * @param backgroundColour The background colour to be saved.
+     * @param barColour The bar colour to be saved.
+     */
+    public void saveSettings(Color backgroundColour, Color barColour) {
+        settings.setBackgroundColour(backgroundColour);
+        settings.setBarColour(barColour);
+        settings.setFrameRate(frameRate);
+        settings.setLength(length);
+        settings.setRange(range);
+        settings.setSortingAlgorithm(selectedAlgorithm);
+        
+        File settingsFile = new File(SAVE_FILENAME);
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(settingsFile, false))) {
+            settingsFile.createNewFile();
+            objectOutputStream.writeObject(settings);
+            objectOutputStream.flush();
+            
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex);
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    }
 
+    /**
+     * Stops playback and displays the unsorted list.
+     */
     public void stop() {
         if (isRunning) {
             timer.stop();
             isRunning = false;
-            gui.updateDisplay(randomNumbers);
-        } else {
-            gui.updateDisplay(randomNumbers);
         }
-    }
+        gui.updateDisplay(randomNumbers);
 
+    }
+    
+    /**
+     *  Generates a new array of random integers
+     * @return An array of random integers
+     */
     private int[] generateRandomArray() {
         Random rand = new Random();
         int[] output = new int[length];
@@ -193,36 +310,21 @@ public class SortingVisualiser {
 
         return output;
     }
-
-    private void sortNumbers() {
-        bubbleSortedBubbles = algorithms.bubbleSort(randomNumbers.clone(), true);
-        bubbleSorted = algorithms.bubbleSort(randomNumbers.clone(), false);
-        insertionSorted = algorithms.insertionSort(randomNumbers.clone());
-        mergeSorted = algorithms.getMergeHistory(randomNumbers.clone());
-        System.gc();
+    /**
+     * Resets the length, range, selectedAlgorithm and frameRate fields to their
+     * default values.
+     */
+    private void initDefaults() {
+        length = 100;
+        range = 100;
+        selectedAlgorithm = 0;
+        frameRate = 30;
     }
-
-    public void saveSettings(Color backgroundColour, Color barColour) {
-        settings.setBackgroundColour(backgroundColour);
-        settings.setBarColour(barColour);
-        settings.setFrameRate(frameRate);
-        settings.setLength(length);
-        settings.setRange(range);
-        settings.setSortingAlgorithm(selectedAlgorithm);
-
-        File settingsFile = new File(SAVE_FILENAME);
-        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(settingsFile, false))) {
-            settingsFile.createNewFile();
-            objectOutputStream.writeObject(settings);
-            objectOutputStream.flush();
-
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex);
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
-    }
-
+    
+    
+    /**
+     * Attempts to load settings from a text file.
+     */
     private void loadSettings() {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(SAVE_FILENAME))) {
             settings = (Settings) objectInputStream.readObject();
@@ -238,21 +340,18 @@ public class SortingVisualiser {
             regenerate();
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
-        } catch (IOException ex) {
-            System.out.println(ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             System.out.println(ex);
         }
     }
-
-    public void deleteSettings() {
-        File settingsFile = new File(SAVE_FILENAME);
-        settingsFile.delete();
-        initDefaults();
-        gui.updateFields();
-        regenerate();
-        gui.setBackgroundColour(DEFAULT_BACKGROUND_COLOUR);
-        gui.setBarColour(DEFAULT_BAR_COLOUR);
-        gui.repaint();
+    /**
+     *  Sorts the random number array using several sorting algorithms. 
+     */
+    private void sortNumbers() {
+        bubbleSortedBubbles = algorithms.bubbleSort(randomNumbers.clone(), true);
+        bubbleSorted = algorithms.bubbleSort(randomNumbers.clone(), false);
+        insertionSorted = algorithms.insertionSort(randomNumbers.clone());
+        mergeSorted = algorithms.getMergeHistory(randomNumbers.clone());
+        System.gc(); // Used to fix issue where heap size would remain high after sorting
     }
 }

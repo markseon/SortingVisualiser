@@ -4,24 +4,30 @@
  */
 package sortingvisualiser;
 
-/**
- *
- * @author Mark
- */
 import java.awt.Color;
 import javax.swing.JColorChooser;
-
+/**
+ * The GUI for the application.
+ * @author Mark Seon
+ */
 public class GUI extends javax.swing.JFrame {
 
     private final SortingVisualiser sortingVisualiser;
-
+    
+    /**
+     * Creates a new GUI object
+     * @param sortingVisualiser the SortingVisualiser to be linked to this GUI. 
+     */
     public GUI(SortingVisualiser sortingVisualiser) {
         this.sortingVisualiser = sortingVisualiser;
         initDesign();
         initComponents();
         initFields();
     }
-
+    
+    /**
+     * Sets the look and feel of this GUI
+     */
     private void initDesign() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -30,17 +36,14 @@ public class GUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            System.out.println(ex);
         }
     }
-
+    
+    /**
+     * Initialises the fields of the GUI elements to those of the sortingVisualiser
+     */
     private void initFields() {
         showBubbles.setState(sortingVisualiser.isShowBubbles());
         for (String algorithm : sortingVisualiser.getAlgorithmNames()) {
@@ -50,7 +53,10 @@ public class GUI extends javax.swing.JFrame {
         display.setBarColour(sortingVisualiser.DEFAULT_BAR_COLOUR);
         updateFields();
     }
-
+    
+    /**
+     * Initialises or updates the fields of GUI elements to those of the sortingVisualiser.
+     */
     public void updateFields() {
         algorithmList.setSelectedIndex(sortingVisualiser.getSelectedAlgorithm());
         length.setText(String.valueOf(sortingVisualiser.getLength()));
@@ -60,15 +66,29 @@ public class GUI extends javax.swing.JFrame {
         playbackSpeedSlider.setValue(sortingVisualiser.getFrameRate());
         playbackSpeed.setText(String.valueOf(sortingVisualiser.getFrameRate()));
     }
-
+    
+    /**
+     * Redraws the display based on information in the input.
+     * @param frame an int array used to define the bars drawn to the display.
+     */
     public void updateDisplay(int[] frame) {
         display.update(frame);
     }
-
+    
+    /**
+     * Sets the display's background colour.
+     * 
+     * @param backgroundColour The new background colour.
+     */
     public void setBackgroundColour(Color backgroundColour) {
         display.setBackgroundColour(backgroundColour);
     }
-
+    
+    /**
+     * Sets the display's bar colour
+     * 
+     * @param barColour The new bar colour
+     */
     public void setBarColour(Color barColour) {
         display.setBarColour(barColour);
     }
@@ -135,11 +155,6 @@ public class GUI extends javax.swing.JFrame {
                 playMousePressed(evt);
             }
         });
-        play.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playActionPerformed(evt);
-            }
-        });
 
         regenerate.setText("Regenerate numbers");
         regenerate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -168,11 +183,6 @@ public class GUI extends javax.swing.JFrame {
         });
 
         playbackSpeed.setEditable(false);
-        playbackSpeed.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playbackSpeedActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Stop");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -363,14 +373,6 @@ public class GUI extends javax.swing.JFrame {
 
         setBounds(0, 0, 1551, 701);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void playActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_playActionPerformed
-
-    private void playbackSpeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playbackSpeedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_playbackSpeedActionPerformed
 
     private void playbackSpeedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_playbackSpeedSliderStateChanged
         playbackSpeed.setText(String.valueOf(playbackSpeedSlider.getValue()));

@@ -1,18 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sortingvisualiser;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import javax.swing.JPanel;
 
 /**
- *
- * @author Mark
+ * Represents a canvas upon which a background and bars are painted.
+ * @author Mark Seon
  */
 public class Display extends JPanel {
 
@@ -22,7 +17,10 @@ public class Display extends JPanel {
     double widthScale;
     int width;
     int height;
-
+    
+    /**
+     * Constructs a new Display object.
+     */
     public Display() {
         backgroundColour = Color.BLACK;
         barColour = Color.WHITE;
@@ -31,11 +29,16 @@ public class Display extends JPanel {
         width = 1280;
         height = 720;
     }
-
+    
+    /**
+     *  Rescales the display according to the displayData and draws the displayData.
+     * 
+     * @param g The display that is being painted 
+     */
     @Override
     public void paintComponent(Graphics g) {
         // Scale the image
-        if(displayData != null) { // Check that there is display data before updating scaling
+        if (displayData != null) { // Check that there is display data before updating scaling
             updateScaling(); // Update heightScale and widthScale
         }
         Graphics2D g2D = (Graphics2D) g.create(); // Cast g to Graphics2D
@@ -49,8 +52,12 @@ public class Display extends JPanel {
             paintBars(g2D);
         }
     }
-
-    public void paintBars(Graphics2D g) {
+    
+    /**
+     * Paints bars on the display.
+     * @param g the display upon which the bars are being drawn
+     */
+    private void paintBars(Graphics2D g) {
         g.setColor(barColour);
         for (int x = 0; x < displayData.length; x++) {
             int barHeight = displayData[x];
@@ -58,37 +65,62 @@ public class Display extends JPanel {
             g.fillRect(x, y, 1, barHeight);
         }
     }
-
+    
+    /**
+     *  Updates the displayData variable and repaints the display.
+     * @param intArray The new display data
+     */
     public void update(int[] intArray) {
         displayData = intArray;
         updateScaling();
         repaint();
     }
-
-    public void updateScaling() {
+    
+    /**
+     * Updates the scaling variables used to scale the drawn image to fill the display.
+     */
+    private void updateScaling() {
         int largest = displayData[0];
         for (int i : displayData) {
             largest = i > largest ? i : largest;
-        };
+        }
         width = displayData.length;
         height = largest;
         heightScale = (double) getHeight() / largest;
         widthScale = (double) getWidth() / displayData.length;
 
     }
-
+    
+    /**
+     * Sets the background colour of the display.
+     * @param backgroundColour The new background colour.
+     */
     public void setBackgroundColour(Color backgroundColour) {
         this.backgroundColour = backgroundColour;
     }
-
+    
+    /**
+     * Sets the colour of bars painted on the display
+     * @param barColour the new bar colour
+     */
     public void setBarColour(Color barColour) {
         this.barColour = barColour;
     }
-
+    
+    /**
+     *  Returns the current background colour of this display.
+     * 
+     * @return This display's current background colour
+     */
     public Color getBackgroundColour() {
         return backgroundColour;
     }
-
+    
+    /**
+     * Returns the current bar colour of this display.
+     * 
+     * @return This display's current bar colour.
+     */
     public Color getBarColour() {
         return barColour;
     }
